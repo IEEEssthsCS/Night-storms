@@ -1,0 +1,418 @@
+/* =========================================
+   1. SHARED VARIABLES & MIXINS
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Courier+Prime:wght@400;700&family=Crimson+Text:wght@400;600&display=swap');
+
+/* Colors */
+$leather-dark: #2c241b;
+$paper-cream: #f4e4bc;
+$paper-white: #fdfbf7;
+$sepia-ink: #2b2b2b;
+$sepia-light: #5c4b36;
+$accent-gold: #c5a059;
+$accent-red: #8b3a3a;
+$accent-stamp-blue: #2c3e50;
+
+/* Fonts */
+$font-header: 'Cinzel', serif;
+$font-body: 'Crimson Text', serif;
+$font-tech: 'Courier Prime', monospace;
+
+/* Textures */
+@mixin paper-texture {
+  background-color: $paper-cream;
+  background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+}
+
+@mixin card-shadow {
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.1), 3px 5px 10px rgba(0,0,0,0.05);
+}
+
+/* =========================================
+   2. DASHBOARD LAYOUT
+   ========================================= */
+body.dashboard-body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  background: #dcd0b8; /* Desk surface color */
+  font-family: $font-body;
+  overflow: hidden;
+}
+
+/* =========================================
+   3. SIDEBAR (The Leather Binding)
+   ========================================= */
+.dash-sidebar {
+  width: 260px;
+  background-color: $leather-dark;
+  color: #e0d5c1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+  z-index: 10;
+  border-right: 2px solid $sepia-light;
+
+  /* Logo Area */
+  .logo {
+    font-family: $font-header;
+    font-size: 1.4rem;
+    color: $accent-gold;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+    
+    i { margin-right: 8px; }
+  }
+
+  /* Navigation Links */
+  .side-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .nav-item {
+      text-decoration: none;
+      color: rgba(255,255,255,0.6);
+      font-family: $font-tech;
+      font-size: 0.95rem;
+      padding: 10px 15px;
+      border-radius: 4px;
+      transition: all 0.3s;
+      border: 1px solid transparent;
+
+      i { margin-right: 12px; width: 20px; text-align: center; }
+
+      &:hover {
+        color: $paper-cream;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(197, 160, 89, 0.2);
+      }
+
+      &.active {
+        background: $paper-cream;
+        color: $leather-dark;
+        font-weight: bold;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border: 1px solid $paper-cream;
+      }
+    }
+  }
+
+  /* User Card (Bottom) */
+  .user-card {
+    display: flex;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px dashed rgba(197, 160, 89, 0.3);
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid $accent-gold;
+      filter: sepia(0.6);
+      margin-right: 12px;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+
+      .name {
+        font-family: $font-header;
+        font-size: 0.9rem;
+        color: $paper-cream;
+      }
+
+      .role {
+        font-family: $font-tech;
+        font-size: 0.7rem;
+        color: $accent-gold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}
+
+/* =========================================
+   4. MAIN CONTENT (The Desk)
+   ========================================= */
+.dash-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 3rem;
+  /* Subtle wood grain or desk texture */
+  background-image: radial-gradient(#2b2b2b 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Header Area */
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+
+  .search-bar {
+    position: relative;
+    width: 400px;
+
+    i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $sepia-light;
+    }
+
+    /* Library Catalog Card Style Input */
+    input {
+      width: 100%;
+      padding: 12px 12px 12px 45px;
+      background: $paper-cream;
+      border: 1px solid $sepia-light;
+      border-radius: 2px;
+      font-family: $font-tech;
+      color: $sepia-ink;
+      font-size: 1rem;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+
+      &:focus {
+        outline: none;
+        background: white;
+        box-shadow: 2px 2px 0 $accent-gold;
+      }
+    }
+  }
+
+  .header-actions {
+    .btn-primary {
+      background: $leather-dark;
+      color: $paper-cream;
+      border: 1px solid $leather-dark;
+      padding: 10px 20px;
+      font-family: $font-header;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+
+      &:hover {
+        transform: translateY(-2px);
+        background: #3d3226;
+      }
+      
+      &:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+/* =========================================
+   5. PROJECTS GRID (The Scattered Cards)
+   ========================================= */
+.projects-section {
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid $sepia-ink;
+    padding-bottom: 10px;
+
+    h2 {
+      font-family: $font-header;
+      font-size: 1.8rem;
+      margin: 0;
+      color: $leather-dark;
+    }
+
+    .view-toggle {
+      color: $sepia-light;
+      cursor: pointer;
+      font-size: 1.2rem;
+      
+      i { margin-left: 10px; transition: color 0.2s; }
+      i:hover { color: $accent-red; }
+    }
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* =========================================
+   6. PROJECT CARD (Index Card Style)
+   ========================================= */
+.project-card {
+  @include paper-texture;
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: default;
+  /* Make it look like a physical card */
+  @include card-shadow;
+  
+  /* Slight random rotations for realism (optional) */
+  &:nth-child(odd) { transform: rotate(-1deg); }
+  &:nth-child(even) { transform: rotate(1deg); }
+
+  &:hover {
+    transform: scale(1.02) rotate(0deg) translateY(-5px);
+    z-index: 5;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
+
+  /* Card Header: Badges as Stamps */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    .badge {
+      font-family: $font-tech;
+      font-weight: bold;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid currentColor;
+      border-radius: 2px;
+      /* Stamp effect */
+      mask-image: url("https://www.transparenttextures.com/patterns/dust.png");
+    }
+
+    .badge-pfe {
+      color: $accent-red;
+      border-color: $accent-red;
+      transform: rotate(-5deg);
+    }
+
+    .badge-intern {
+      color: $accent-stamp-blue;
+      border-color: $accent-stamp-blue;
+      transform: rotate(3deg);
+    }
+    
+    .fa-ellipsis-vertical {
+      color: $sepia-light;
+      cursor: pointer;
+      &:hover { color: $leather-dark; }
+    }
+  }
+
+  /* Card Body */
+  .card-body {
+    h3 {
+      font-family: $font-header;
+      font-size: 1.3rem;
+      margin: 0 0 5px 0;
+      color: $leather-dark;
+    }
+
+    p {
+      font-family: $font-tech;
+      font-size: 0.8rem;
+      color: $sepia-light;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    /* Progress Bar - Ink Style */
+    .progress-container {
+      height: 6px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 3px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(92, 75, 54, 0.2);
+
+      .progress-bar {
+        height: 100%;
+        background-color: $sepia-light;
+        /* Texture to make it look like painted ink */
+        background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+        background-size: 10px 10px;
+      }
+    }
+
+    .progress-text {
+      font-family: $font-tech;
+      font-size: 0.75rem;
+      color: $sepia-ink;
+    }
+  }
+
+  /* Card Footer */
+  .card-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(0,0,0,0.1);
+    text-align: right;
+
+    .btn-open {
+      text-decoration: none;
+      font-family: $font-header;
+      font-size: 0.85rem;
+      color: $accent-red;
+      font-weight: bold;
+      
+      &:hover { text-decoration: underline; }
+      i { font-size: 0.8em; margin-left: 5px; }
+    }
+  }
+}
+
+/* =========================================
+   7. "ADD NEW" CARD
+   ========================================= */
+.project-card.add-card {
+  background: transparent;
+  border: 2px dashed $sepia-light;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $sepia-light;
+  cursor: pointer;
+  box-shadow: none;
+
+  /* No rotation for the add button */
+  transform: rotate(0deg) !important; 
+
+  i {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    opacity: 100%;
+    transition: transform 0.3s;
+  }
+
+  span {
+    font-family: $font-header;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &:hover {
+    background: rgba(244, 228, 188, 0.3);
+    border-color: $accent-gold;
+    color: $accent-gold;
+    
+    i { transform: scale(1.1); opacity: 1; }
+  }
+}
