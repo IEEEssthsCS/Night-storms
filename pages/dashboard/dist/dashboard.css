@@ -12,7 +12,8 @@ body.dashboard-body {
   margin: 0;
   display: flex;
   height: 100vh;
-  background: #dcd0b8; /* Desk surface */
+  background: #dcd0b8;
+  /* Desk surface */
   font-family: "Crimson Text", serif;
   overflow: hidden;
 }
@@ -288,8 +289,7 @@ body.dashboard-body {
   letter-spacing: 1px;
   border: 1px solid currentColor;
   border-radius: 2px;
-  -webkit-mask-image: url("https://www.transparenttextures.com/patterns/dust.png");
-          mask-image: url("https://www.transparenttextures.com/patterns/dust.png");
+  mask-image: url("https://www.transparenttextures.com/patterns/dust.png");
 }
 .project-card .card-header .badge-pfe {
   color: #8b3a3a;
@@ -393,4 +393,4 @@ body.dashboard-body {
 .project-card.add-card:hover i {
   transform: scale(1.1);
   opacity: 1;
-}/*# sourceMappingURL=dashboard.css.map */
+}

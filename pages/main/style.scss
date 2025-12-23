@@ -173,6 +173,90 @@ body {
       filter: sepia(0.5);
     }
   }
+}/* =========================================
+   SIDEBAR NAV ANCHORS (Registry Tabs)
+   ========================================= */
+.side-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 2rem;
+
+  .nav-item {
+    text-decoration: none;
+    color: rgba(224, 213, 193, 0.7); // Faded parchment color
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    padding: 12px 15px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    letter-spacing: 0.5px;
+
+    i {
+      font-size: 1rem;
+      color: $accent-gold;
+      opacity: 0.8;
+    }
+
+    /* The "Hover" effect - looks like a highlighted ledger line */
+    &:hover {
+      color: $paper-cream;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid $accent-gold;
+      padding-left: 20px; // Subtle slide effect
+    }
+
+    /* The "Active" state - looks like a red ink stamp */
+    &.active {
+      color: #fff;
+      background: rgba($accent-red, 0.15);
+      border: 1px dashed $accent-red;
+      
+      i {
+        color: $accent-red;
+        opacity: 1;
+      }
+
+      &::after {
+        content: 'SELECTED';
+        position: absolute;
+        right: 10px;
+        font-size: 0.5rem;
+        color: $accent-red;
+        border: 1px solid $accent-red;
+        padding: 1px 3px;
+        transform: rotate(-10deg);
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+/* Specific Style for the User Profile Anchor if it's in the sidebar */
+.user-profile-anchor {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  margin-top: auto; // Pushes to bottom
+  border-top: 1px double $sepia-light;
+
+  .name {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    color: $accent-gold;
+    font-size: 1rem;
+  }
+
+  &:hover .name {
+    text-decoration: underline;
+    color: $paper-cream;
+  }
 }
 
 /* =========================================
@@ -301,8 +385,10 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-image: radial-gradient(#000 1px, transparent 0); /* Dot grid pattern on desk */
-  background-size: 20px 20px;
+  /* Subtle blueprint grid background */
+  background-image: linear-gradient(rgba(43, 43, 43, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(43, 43, 43, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
   background-color: #dcd0b8; /* Slightly darker than paper */
 }
 

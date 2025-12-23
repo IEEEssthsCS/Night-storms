@@ -6,7 +6,7 @@
     <title>User Profile | Academic Report Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="profile.css">
 </head>
 <body class="dashboard-body">
 
@@ -15,11 +15,20 @@
             <i class="fa-solid fa-graduation-cap"></i> Report<strong>Assist</strong>
         </div>
         <nav class="side-nav">
-            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> My Projects</a>
-            <a href="templates.html" class="nav-item"><i class="fa-solid fa-layer-group"></i> Templates</a>
+            <a href="../dashboard/dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> My Projects</a>
+            <a href="../templates/templates.html" class="nav-item"><i class="fa-solid fa-layer-group"></i> Templates</a>
             
-            <a href="settings.html" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="../settings/settings.html" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
         </nav>
+        <div class="user-card">
+            <img src="https://ui-avatars.com/api/?name=Student+User&background=3b82f6&color=fff" alt="User">
+            <div class="user-info">
+                
+                 <a href="../profile/profile.html" class="user-profile-anchor" title="View Profile"><span class="name">Student User</span></a>
+                
+                 <span class="role" >Premium Account</span>
+            </div>
+        </div>
     </aside>
 
     <main class="dash-content">
@@ -104,14 +113,28 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        gsap.from(".profile-header", { duration: 0.8, y: -20, opacity: 0, ease: "power3.out" });
-        gsap.from(".stats-card, .settings-card", { 
-            duration: 0.6, 
-            y: 20, 
-            opacity: 0, 
-            stagger: 0.2, 
-            delay: 0.3 
-        });
+      // Animate the profile header with a slight lift and rotation
+gsap.from(".profile-header", {
+    duration: 1,          // longer for smoother effect
+    y: -30,               // start higher
+    rotation: -5,         // slight tilt
+    opacity: 0,
+    scale: 0.95,          // slight shrink at start
+    ease: "power3.out"
+});
+
+// Animate stats and settings cards with stagger, lift, and subtle rotation
+gsap.from(".stats-card, .settings-card", {
+    duration: 0.8,
+    y: 30,                // start below
+    rotation: 3,          // slight tilt
+    opacity: 0,
+    scale: 0.9,           // start slightly smaller
+    stagger: 0.25,        // cascade effect
+    delay: 0.3,
+    ease: "power3.out"
+});
+
     </script>
 </body>
 </html>
