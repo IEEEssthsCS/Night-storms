@@ -32,8 +32,9 @@
         <div class="actions">
             <button class="btn btn-outline"><i class="fa-solid fa-floppy-disk"></i> Save</button>
             <button class="btn btn-primary" onclick="exportPDF()"><i class="fa-solid fa-file-export"></i> Export</button>
-            
-            <a href="../profile/profile.html" class="user-profile-anchor" title="View Profile">
+            <button class="btn btn-outline" id="login-btn">Login</button>
+            <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+            <a href="../profile/profile.html" class="user-profile-anchor" title="View Profile" id="user-profile" style="display: none;">
                 <img src="https://ui-avatars.com/api/?name=Student+User&background=3b82f6&color=fff" alt="User Avatar" class="avatar-img">
             </a>
         </div>
@@ -77,10 +78,10 @@
                 </div>
                 <div class="media-grid">
                     <div class="media-item-thumb" title="Architecture Diagram">
-                        <img src="https://via.placeholder.com/100x100?text=Diag1" alt="Diag">
+                        <img src="https://picsum.photos/100/100?random=1" alt="Diag">
                     </div>
                     <div class="media-item-thumb" title="Result Chart">
-                        <img src="https://via.placeholder.com/100x100?text=Chart" alt="Chart">
+                        <img src="https://picsum.photos/100/100?random=2" alt="Chart">
                     </div>
                     <div class="media-item-thumb add-new" title="Upload New Media">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -95,6 +96,7 @@
                 
                  <span class="role" >Premium Account</span>
             </div>
+            <button class="btn btn-outline logout-btn" onclick="logout()">Logout</button>
         </div>
             <div class="sidebar-footer">
                 <a href="help.html"><i class="fa-solid fa-circle-question"></i> Help & Shortcuts</a>
@@ -132,7 +134,7 @@
                     <p>The field of research has seen significant growth in recent years. This section outlines the primary objectives of the study...</p>
                     
                     <figure class="editor-figure" contenteditable="false">
-                        <img src="https://via.placeholder.com/600x300?text=Project+Flowchart" alt="Flowchart">
+                        <img src="https://picsum.photos/600/300?random=3" alt="Flowchart">
                         <figcaption>Figure 1.1: Project Development Workflow</figcaption>
                     </figure>
 
@@ -170,8 +172,58 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script src="app.js"></script>
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Login</h3>
+                <span class="close" onclick="closeLoginModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign Up</h3>
+                <span class="close" onclick="closeSignupModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-username">Username</label>
+                        <input type="text" id="signup-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="../auth.js"></script>
+<script src="app.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    checkLogin();
+  });
+</script>
+
 </body>
 </html>
