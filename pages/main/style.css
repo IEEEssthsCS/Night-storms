@@ -154,6 +154,7 @@ body {
 .main-container {
   display: flex;
   height: calc(100vh - 60px);
+ 
 }
 
 /* =========================================
@@ -344,9 +345,9 @@ body {
 /* The Paper Sheet */
 .paper {
   flex: 1;
-  overflow-y: auto;
+  overflow: auto;
   padding: 2rem;
-  display: flex;
+  display: auto;
   justify-content: center;
 }
 .paper #editor {

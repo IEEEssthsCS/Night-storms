@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive Access | ReportAssist</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Courier+Prime:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <style>
+        /* 1. Background Setup */
+        .auth-page {
+            background-image: url('https://i.pinimg.com/736x/22/62/cc/2262cc7bc1183d7fe74fe8defff42bc6.jpg');
+            background-size: 100% 100%;
+            background-position: scroll;
+            background-attachment: no-repeat;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: clip;
+        }
+
+        /* 2. Container and Flipper Setup */
+        .auth-container {
+            perspective: 1500px; /* Increased for better 3D depth */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .flipper {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            transform-style: preserve-3d;
+            height: 800px; /* Adjusted to prevent button cutoff */
+        }
+
+        /* 3. Handling the Flip Views */
+        .auth-view {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .view-signup {
+            transform: rotateY(180deg);
+        }
+
+        /* 4. Layout Fix for Registry (First/Last Name) */
+        .input-row {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .input-row .input-group {
+            flex: 1;
+        }
+
+        /* Styling for the switch buttons */
+        .switch-link {
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        
+        /* Clean links inside buttons */
+        .btn-full a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="flipper" id="authFlipper">
+
+            <div class="auth-view view-login">
+                <div class="auth-branding">
+                    <div class="wax-seal"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h1 class="auth-title">Report<strong>Assist</strong></h1>
+                    <p class="auth-subtitle">Academic Report Assistant</p>
+                </div>
+                <div class="auth-card">
+                    <div class="card-header">
+                        <h2>Member Identification</h2>
+                        <div class="divider"></div>
+                    </div>
+                    <form class="auth-form">
+                        <div class="input-group">
+                            <label><i class="fa-solid fa-envelope"></i> Email Address</label>
+                            <input type="email" placeholder="student@university.edu" required>
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fa-solid fa-lock"></i> Password</label>
+                            <input type="password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <a href="dashboard/dashboard.html">Enter Archive <i class="fa-solid fa-arrow-right"></i></a>
+                        </button>
+                    </form>
+                    <div class="card-footer">
+                        <p>New researcher? <span class="switch-link" id="btn-go-signup">Request access here</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="auth-view view-signup">
+                <div class="auth-branding">
+                    <div class="wax-seal"><i class="fa-solid fa-feather"></i></div>
+                    <h1 class="auth-title">Report<strong>Assist</strong></h1>
+                    <p class="auth-subtitle">Create New Archive Account</p>
+                </div>
+                <div class="auth-card">
+                    <div class="card-header">
+                        <h2>Registry Application</h2>
+                        <div class="divider"></div>
+                    </div>
+                    <form class="auth-form">
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label>First Name</label>
+                                <input type="text" placeholder="John">
+                            </div>
+                            <div class="input-group">
+                                <label>Last Name</label>
+                                <input type="text" placeholder="Doe">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>University Email</label>
+                            <input type="email" placeholder="j.doe@academy.edu">
+                        </div>
+                        <div class="input-group">
+                            <label>Password</label>
+                            <input type="password" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <a href="dashboard/dashboard.html">Submit Application</a>
+                        </button>
+                    </form>
+                    <div class="card-footer">
+                        Already have a dossier? <span class="switch-link" id="btn-go-login">Login here</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const flipper = document.querySelector('#authFlipper');
+            
+            document.getElementById('btn-go-signup').addEventListener('click', () => {
+                anime({
+                    targets: flipper,
+                    rotateY: '180deg',
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                });
+            });
+
+            document.getElementById('btn-go-login').addEventListener('click', () => {
+                anime({
+                    targets: flipper,
+                    rotateY: '0deg',
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
