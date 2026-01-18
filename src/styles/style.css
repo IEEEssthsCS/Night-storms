@@ -1,0 +1,122 @@
+/* --- GLOBAL RESET & THEME --- */
+:root {
+  --primary-blue: #3b82f6;
+  --primary-dark: #1f2937;
+  --bg-light: #f9fafb;
+  --text-main: #374151;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --white: #ffffff;
+  --transition: all 0.3s ease;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif; /* Modern clean font */
+  background-color: var(--bg-light);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow:scroll;
+}
+
+/* --- TYPOGRAPHY --- */
+h1, h2, h3, h4 {
+  color: #111827;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Scholarly feel for headers if desired */
+.academic-font {
+  font-family: 'Lora', serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+/* --- REUSABLE BUTTONS --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.btn-text {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.btn-text:hover {
+  color: var(--primary-dark);
+}
+
+/* --- COMMON FORM ELEMENTS --- */
+/* Used in Signup.jsx and Dashboard forms */
+input, select, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-top: 1rem;
+}
+
+/* --- AUTH PAGE SPECIFICS --- */
+/* For Signup.jsx */
+.auth-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.auth-card-wrapper {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 450px;
+}
