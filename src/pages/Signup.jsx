@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/signup.css";
 
-
 export default function Signup() {
   const navigate = useNavigate();
   
+  // Configuration: Change this to your actual backend URL
+  const API_URL = "http://localhost:5000/api/auth";
+
   // State
   const [mode, setMode] = useState("login"); // 'login' or 'signup'
   const [isLoading, setIsLoading] = useState(false);
@@ -22,33 +24,66 @@ export default function Signup() {
   // Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(""); // Clear errors when user types
+    setError(""); 
   };
 
   // Handle Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-    // Simulate API Call delay
-    setTimeout(() => {
-      // Basic validation logic (Mock)
-      if (formData.email.includes("error")) {
-        setError("Invalid email or password provided.");
-        setIsLoading(false);
-      } else {
-        console.log(`${mode.toUpperCase()} Success:`, formData);
-        navigate("/dashboard");
+    try {
+      // 1. Determine the endpoint based on mode
+      const endpoint = mode === "login" ? `${API_URL}/login` : `${API_URL}/signup`;
+
+      // 2. Filter data: Don't send names if logging in
+      const payload = mode === "login" 
+        ? { email: formData.email, password: formData.password }
+        : formData;
+
+      // 3. Make the Request
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      // 4. Handle Errors from Backend
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
       }
-    }, 1500);
+
+      // 5. Success Logic
+      console.log(`${mode.toUpperCase()} Success:`, data);
+      
+      // ✅ FIX: Save Token AND User Data
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        
+        // I REMOVED THE COMMENT '//' BELOW SO IT NOW SAVES THE DATA:
+        localStorage.setItem("user", JSON.stringify(data.user)); 
+      }
+
+      navigate("/dashboard");
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Toggle Mode (Clear state)
   const toggleMode = (newMode) => {
     setMode(newMode);
     setError("");
-    setFormData({ ...formData, firstName: "", lastName: "" }); // Reset names, keep email/pass if desired
+    // Reset names, keep email/pass for convenience
+    setFormData(prev => ({ ...prev, firstName: "", lastName: "" })); 
   };
 
   return (

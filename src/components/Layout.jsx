@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import "../styles/dashboard.css"; // Assuming shared sidebar styles are here
+import { useState, useEffect } from "react"; // 1. Import Hooks
+import "../styles/dashboard.css"; 
 
 export default function Layout() {
   const location = useLocation();
@@ -7,11 +8,29 @@ export default function Layout() {
   // Helper to check if a link is active for styling
   const isActive = (path) => location.pathname === path ? "active" : "";
 
-  const user = {
-    name: "Student User",
-    role: "Premium Account",
-    avatar: "https://ui-avatars.com/api/?name=Student+User&background=3b82f6&color=fff"
-  };
+  // 2. Set default state (Fallback if no user is logged in)
+  const [user, setUser] = useState({
+    firstName: "Student",
+    lastName: "User",
+    role: "Premium Account"
+  });
+
+  // 3. Load user from LocalStorage on mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser)); // Parse string back to object
+      } catch (error) {
+        console.error("Failed to parse user data", error);
+      }
+    }
+  }, []);
+
+  // 4. Create dynamic full name and avatar URL
+  const fullName = `${user.firstName} ${user.lastName}`;
+  // This API creates an image with initials (e.g. "John Doe" -> "JD")
+  const avatarUrl = `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=3b82f6&color=fff`;
 
   return (
     <div className="dashboard-container">
@@ -36,10 +55,13 @@ export default function Layout() {
         </nav>
 
         <div className="user-card">
-          <img src={user.avatar} alt="User" />
+          {/* Use dynamic avatar */}
+          <img src={avatarUrl} alt="User" />
+          
           <div className="user-info">
             <Link to="/profile" className="user-profile-anchor">
-              <span className="name">{user.name}</span>
+              {/* Use dynamic name */}
+              <span className="name">{fullName}</span>
             </Link>
             <span className="role">{user.role}</span>
           </div>

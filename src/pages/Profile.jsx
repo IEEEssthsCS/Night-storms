@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react"; // 1. Added useEffect
 import { Link } from "react-router-dom";
 import "../styles/profile.css";
 
 export default function Profile() {
-  // State for user details (simulating fetched data)
+  
+  // 2. Initialize state with default placeholders
   const [user, setUser] = useState({
     name: "Student User",
     role: "Premium Account",
@@ -12,11 +13,31 @@ export default function Profile() {
     avatar: "https://ui-avatars.com/api/?name=Student+User&size=128&background=3b82f6&color=fff"
   });
 
+  // 3. Load Real User Data from Storage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        
+        // Update state with real data
+        setUser(prevUser => ({
+          ...prevUser, // Keep static fields like 'role' and 'major' for now
+          name: `${parsedUser.firstName} ${parsedUser.lastName}`,
+          email: parsedUser.email,
+          avatar: `https://ui-avatars.com/api/?name=${parsedUser.firstName}+${parsedUser.lastName}&size=128&background=3b82f6&color=fff`
+        }));
+      } catch (error) {
+        console.error("Error parsing user data in Profile:", error);
+      }
+    }
+  }, []);
+
   return (
     <div className="dashboard-container">
       {/* SIDEBAR (Should ideally be in a Layout component) */}
       
-
       {/* MAIN CONTENT */}
       <main className="dash-content">
         <header className="profile-header">
