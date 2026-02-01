@@ -276,22 +276,26 @@ body {
 }
 
 /* The Scrolling Paper Container */
+/* The Scrolling Paper Container */
 .paper-container {
   flex: 1;
-  overflow-y: auto; /* Allow the desk to scroll */
+  overflow-y: auto;
+  scroll-behavior: smooth;
   padding: 3rem;
-  display: flex;
-  justify-content: center;
+  display: block; /* Safer for scrolling */
+  text-align: center; /* Centers the paper horizontally */
+  position: relative; /* important for calculation */
 }
 
 /* The Actual Paper Sheet */
 .paper {
+  display: inline-block; /* Keeps it centered via text-align */
   width: 100%;
-  display: flex;
-  justify-content: center;
-  /* Allow paper to grow */
-  height: fit-content; 
+  max-width: 210mm;
+  text-align: left; /* Reset text align for content inside paper */
 }
+
+
 
 #editor, .editor-content {
   width: 210mm; /* A4 Width */

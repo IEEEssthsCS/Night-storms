@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
-// Make sure this imports the new CSS file above
 import "../styles/editor.css"; 
 
 const INITIAL_CONTENT = `
@@ -36,6 +35,8 @@ export default function Editor() {
   const navigate = useNavigate();
   const editorRef = useRef(null);
   const fileInputRef = useRef(null);
+  // 1. ADD THIS REF for the scrolling container
+  const paperContainerRef = useRef(null);
    
   const [latexOpen, setLatexOpen] = useState(false);
   const [latexInput, setLatexInput] = useState("");
@@ -45,12 +46,9 @@ export default function Editor() {
   const [user, setUser] = useState({ firstName: "Student", lastName: "User" });
 
   useEffect(() => {
-    // Load initial content only once
     if (editorRef.current && !editorRef.current.innerHTML) {
       editorRef.current.innerHTML = INITIAL_CONTENT;
     }
-
-    // Load user for the Navbar
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
@@ -162,7 +160,7 @@ export default function Editor() {
     }
   };
 
-  // Handle drag and drop for LaTeX elements
+  // Drag and Drop Effects (Kept same as before)
   useEffect(() => {
     const editor = editorRef.current;
     if (!editor) return;
@@ -180,7 +178,7 @@ export default function Editor() {
         placeholder = document.createElement('div');
         placeholder.className = 'latex-drop-placeholder';
         placeholder.style.height = e.target.offsetHeight + 'px';
-        placeholder.style.border = '2px dashed #c5a059'; // Gold dashed line
+        placeholder.style.border = '2px dashed #c5a059'; 
       }
     };
 
@@ -196,11 +194,8 @@ export default function Editor() {
     const handleDragOver = (e) => {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
-      
       if (!draggedElement) return;
-
       const afterElement = getDragAfterElement(editor, e.clientY);
-      
       if (afterElement == null) {
         if (placeholder) editor.appendChild(placeholder);
       } else {
@@ -213,32 +208,25 @@ export default function Editor() {
     const handleDrop = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      
       if (!draggedElement) return;
-
       const afterElement = getDragAfterElement(editor, e.clientY);
-      
       if (placeholder && placeholder.parentNode) {
         placeholder.parentNode.removeChild(placeholder);
       }
-
       if (afterElement == null) {
         editor.appendChild(draggedElement);
       } else {
         editor.insertBefore(draggedElement, afterElement);
       }
-
       draggedElement.style.opacity = '1';
       draggedElement = null;
     };
 
     const getDragAfterElement = (container, y) => {
       const draggableElements = [...container.querySelectorAll('.draggable-latex:not(.dragging), p, h2, div:not(.latex-drop-placeholder)')];
-
       return draggableElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - box.top - box.height / 2;
-
         if (offset < 0 && offset > closest.offset) {
           return { offset: offset, element: child };
         } else {
@@ -275,14 +263,12 @@ export default function Editor() {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
-       
       reader.onload = (event) => {
         const img = document.createElement('img');
         img.src = event.target.result;
         img.style.maxWidth = '100%';
         img.style.display = 'block';
         img.style.margin = '10px auto';
-         
         editorRef.current?.focus();
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
@@ -295,7 +281,6 @@ export default function Editor() {
           selection.addRange(range);
         }
       };
-       
       reader.readAsDataURL(file);
     }
   };
@@ -334,7 +319,6 @@ export default function Editor() {
       </body>
       </html>
     `;
-     
     const blob = new Blob([fullHtml], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -346,10 +330,21 @@ export default function Editor() {
     URL.revokeObjectURL(url);
   };
 
+  // 2. UPDATED SCROLL LOGIC
   const scrollToSection = (sectionId) => {
+    // We scroll the CONTAINER, not the window
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const container = paperContainerRef.current;
+    
+    if (element && container) {
+      // Find the position of the element relative to the container
+      const elementTop = element.offsetTop;
+      
+      // Scroll the container to that position (minus a little padding)
+      container.scrollTo({
+        top: elementTop - 50, // 50px buffer so the title isn't stuck to the very top
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -441,7 +436,8 @@ export default function Editor() {
             onChange={handleFileChange}
           />
 
-          <div className="paper-container">
+          {/* 3. ATTACH THE SCROLL REF HERE */}
+          <div className="paper-container" ref={paperContainerRef}>
             <div className="paper">
               <div
                 ref={editorRef}
